@@ -14,6 +14,9 @@ pymongo = "^4.6.0"
 scikit-learn = "^1.3.2"
 tensorflow = "^2.14.0"
 tensorflow-io-gcs-filesystem = "^0.34.0"
+python-binance = "^1.0.19"
+ta-lib = "^0.4.28"
+pandas-ta = "^0.3.14b0"
 
 
 [build-system]

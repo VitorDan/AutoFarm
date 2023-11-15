@@ -1,12 +1,18 @@
 from app.src.models import autofarmbase as atdb
+from app.src.normalize import pontual_change as pch
 import pandas as pd 
 import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from app.src.ml import Autoencoder
+from tensorflow.keras.optimizers import Adam
 import plotly.express as px
-df = atdb.get_samples('ADAUSDT',20000)
+df = atdb.get_samples('ADAUSDT',43200)
+df = pch.time_set_unit(df)
+df = pch.change_volume(df)
 df = df.set_index('OpenTime')
+df = df.sort_index()
+df = df.dropna()
 print(df.describe())
 print(df.dtypes)
 
@@ -20,7 +26,9 @@ part2_min = scaler.min()
 part3_max = scaler.max()
 
 print(data)
-
+print(data.shape[0],1,data.shape[1])
+# fig1 = px.line(data)
+# fig1.show()
 data = data.to_numpy()
 dados = data.reshape(data.shape[0],1,data.shape[1])
 
@@ -28,10 +36,12 @@ dados = data.reshape(data.shape[0],1,data.shape[1])
 model  = Autoencoder(input_shape=(dados.shape[1],dados.shape[2]),encode_size= 1)
 
 
-model.compile(optimizer='adam', loss='mean_squared_error',metrics=['accuracy'])
+model.compile(optimizer=Adam(), loss='mean_squared_error',metrics=['accuracy'])
 
 
-model.fit(dados,dados,batch_size=128,shuffle=True,epochs=200,validation_split=0.1)
+model.fit(dados,dados,batch_size=128,shuffle=True,epochs=10,validation_split=0.1)
+
+model.save('model.keras')
 
 pred = model.predict(dados)
 print(pred)

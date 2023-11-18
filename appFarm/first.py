@@ -35,8 +35,6 @@ def msg(e):
     print(e)
 mongo = MongoSave()
 
-api_key = "Fj6SxfmYteRU61SYP9G2T8msbezPDCQFY9iE54guuOtc8eWKF6HdhzX4eIYaK2CR"
-secret_key= "DUYD9o42PuYg5v81kaxMJKFW19USR6IS52ZyvHLML5DpC5XkUcuDNEyaUE1EaK8v"
 
 
 socket = ThreadedWebsocketManager(api_key, secret_key)
